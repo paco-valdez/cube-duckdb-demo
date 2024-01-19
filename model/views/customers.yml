@@ -7,7 +7,7 @@ views:
     # If 'public' is false, dimensions and measures of this view can't be queried.
     # Below, the visibility is calculated with a Python function, based on the COMPILE_CONTEXT.
     # See the 'model/globals.py' file for details
-    public: "{ COMPILE_CONTEXT.securityContext.team === 'default' ? true : false }"
+    public: true
 
     cubes:
         # The 'join_path' property references a cube by its name
