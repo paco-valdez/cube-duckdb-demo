@@ -73,18 +73,18 @@ cubes:
       # Jinja can be used to remove code duplication and add dynamicity into the data model.
       # Here, a dictionary of 'metrics' is iterated over to create three rolling_window measures.
       # Learn more: https://cube.dev/docs/product/data-modeling/dynamic/jinja
-      {% set metrics = {
-        'dau': '1 day',
-        'wau': '1 week',
-        'mau': '1 month'
-      } %}
-      {% for name, window in metrics | items %}
-      - name: {{ name }}
-        sql: user_id
-        type: count_distinct
-        rolling_window:
-          trailing: {{ window }}
-      {% endfor %}
+      # {% set metrics = {
+      #   'dau': '1 day',
+      #   'wau': '1 week',
+      #   'mau': '1 month'
+      # } %}
+      # {% for name, window in metrics | items %}
+      # - name: {{ name }}
+      #   sql: user_id
+      #   type: count_distinct
+      #   rolling_window:
+      #     trailing: {{ window }}
+      # {% endfor %}
 
     # Pre-aggregations accelerate queries by calculating and storing the data in advance.
     # Learn more: https://cube.dev/docs/product/caching/using-pre-aggregations
