@@ -1,15 +1,15 @@
 const slugDimensions = new Set(['project_slug', 'slug']);
 
 module.exports = {
-  contextToAppId: ({project_slug}) => `CUBEJS_APP_${project_slug || 'default'}`,
-  contextToOrchestratorId: () => ({project_slug}) => `CUBEJS_APP_${project_slug || 'default'}`,
+  contextToAppId: ({securityContext}) => `CUBEJS_APP_${securityContext.project_slug || 'default'}`,
+  contextToOrchestratorId: () => ({securityContext}) => `CUBEJS_APP_${securityContext.project_slug || 'default'}`,
   scheduledRefreshContexts: async () => [
-    { project_slug: 'default' },
-    // { project_slug: 'zep' },
-    // { project_slug: 'cdf' },
+    { securityContext: { project_slug: 'default' }},
+    // { securityContext: { { project_slug: 'zep' }},
+    // { securityContext: { { project_slug: 'cdf' }},
   ],
-  queryRewrite: (query, { project_slug }) => {
-    console.log(`tenant id - CUBEJS_APP_${project_slug}`);
+  queryRewrite: (query, { securityContext }) => {
+    console.log(`tenant id - CUBEJS_APP_${securityContext.project_slug}`);
     return query;
   },
   extendContext: (req) => {
@@ -20,13 +20,19 @@ module.exports = {
         if(values && values.size == 1){
           // console.log(`Valid tenant - ${values.values().next().value}`)
           return {
-            project_slug: values.values().next().value
+            securityContext: {
+              ...req.securityContext,
+              project_slug: values.values().next().value
+            }
           }
         }
       }
     }
     return {
-      project_slug: 'default'
+      securityContext: {
+        ...req.securityContext,
+        project_slug: 'default'
+      }
     };
   },
 }
