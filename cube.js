@@ -11,6 +11,14 @@ module.exports = {
     console.log(`tenant id: ${securityContext.team}`);
     return query;
   },
+  extendContext: (req) => {
+    if(req.query.query)
+      console.log(req.query.query);
+    //console.log(securityContext);
+    return {
+      
+    };
+  },
 }
 
 // # query_rewrite provides a way to inspect, modify, and restrict queries at runtime.

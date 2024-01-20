@@ -17,13 +17,22 @@ cube('orders2', {
         type: `number`,
         public: false
       },
-      status:{
+      status: {
         sql: `'${SECURITY_CONTEXT.team.unsafeValue()}_' || status`,
+        type: `string`,
+      },
+      project_slug: {
+        sql: `status`,
+        type: `string`,
+      },
+
+      slug: {
+        sql: `status`,
         type: `string`,
       },
 
       created_at: {
-        sql: "{CUBE}.created_at::TIMESTAMP",
+        sql: `${CUBE}.created_at::TIMESTAMP`,
         type: `time`
       }
   }
