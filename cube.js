@@ -1,22 +1,32 @@
+const slugDimensions = new Set(['project_slug', 'slug']);
+
 module.exports = {
-  contextToAppId: ({securityContext}) => `${securityContext.team || 'default'}`,
-  contextToOrchestratorId: () => ({securityContext}) => `${securityContext.team || 'default'}`,
+  contextToAppId: ({project_slug}) => `CUBEJS_APP_${project_slug || 'default'}`,
+  contextToOrchestratorId: () => ({project_slug}) => `CUBEJS_APP_${project_slug || 'default'}`,
   scheduledRefreshContexts: async () => [
-    { securityContext: { team: 'default' } },
-    { securityContext: { team: 'marketing' } },
-    { securityContext: { team: 'product' } },
-    { securityContext: { team: 'sales' } }
+    { project_slug: 'default' },
+    // { project_slug: 'zep' },
+    // { project_slug: 'cdf' },
   ],
-  queryRewrite: (query, { securityContext }) => {
-    console.log(`tenant id: ${securityContext.team}`);
+  queryRewrite: (query, { project_slug }) => {
+    console.log(`tenant id - CUBEJS_APP_${project_slug}`);
     return query;
   },
   extendContext: (req) => {
-    if(req.query.query)
-      console.log(req.query.query);
-    //console.log(securityContext);
+    if(req.query && req.query.query){
+      const query = JSON.parse(req.query.query);
+      if(query.filters && query.filters.length > 0){
+        const values = new Set(query.filters.map(element => slugDimensions.has(element.member.split('.')[1]) ? element.values : []).flat());
+        if(values && values.size == 1){
+          // console.log(`Valid tenant - ${values.values().next().value}`)
+          return {
+            project_slug: values.values().next().value
+          }
+        }
+      }
+    }
     return {
-      
+      project_slug: 'default'
     };
   },
 }
