@@ -1,6 +1,19 @@
 cube('orders2', {
   sql: `SELECT *
-   FROM 's3://cube-tutorial/orders.csv'`,
+   FROM 's3://cube-tutorial/orders.csv'
+   WHERE status = '${COMPILE_CONTEXT.securityContext.project_slug}' 
+  `,
+  preAggregations: {
+    main:{
+      dimensions: [CUBE.project_slug, CUBE.status],
+      measures: [CUBE.count],
+      timeDimension: CUBE.created_at,
+      granularity: `day`,
+      refreshKey: {
+        every: `1 day`
+      }
+    }
+  },
   measures: {
     count: {
       type: `count`
@@ -18,7 +31,7 @@ cube('orders2', {
         public: false
       },
       status: {
-        sql: `'${SECURITY_CONTEXT.team.unsafeValue()}_' || status`,
+        sql: `status`,
         type: `string`,
       },
       project_slug: {

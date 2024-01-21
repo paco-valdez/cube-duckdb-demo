@@ -2,9 +2,11 @@ const slugDimensions = new Set(['project_slug', 'slug']);
 
 module.exports = {
   contextToAppId: ({securityContext}) => `CUBEJS_APP_${securityContext.project_slug || 'default'}`,
-  contextToOrchestratorId: () => ({securityContext}) => `CUBEJS_APP_${securityContext.project_slug || 'default'}`,
+  contextToOrchestratorId: ({securityContext}) => `CUBEJS_APP_${securityContext.project_slug || 'default'}`,
+  preAggregationsSchema: ({securityContext}) => `pre_aggregations_${securityContext.project_slug || 'default'}`,
   scheduledRefreshContexts: async () => [
     { securityContext: { project_slug: 'default' }},
+    { securityContext: { project_slug: 'completed' }},
     // { securityContext: { { project_slug: 'zep' }},
     // { securityContext: { { project_slug: 'cdf' }},
   ],
