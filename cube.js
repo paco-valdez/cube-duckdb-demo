@@ -15,6 +15,8 @@ module.exports = {
     return query;
   },
   extendContext: (req) => {
+    if(req.securityContext.project_slug)
+      return {};
     if(req.query && req.query.query){
       const query = JSON.parse(req.query.query);
       if(query.filters && query.filters.length > 0){

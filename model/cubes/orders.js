@@ -1,7 +1,7 @@
 cube('orders2', {
   sql: `SELECT *
    FROM 's3://cube-tutorial/orders.csv'
-   WHERE status = '${COMPILE_CONTEXT.securityContext.project_slug}' 
+   WHERE ${COMPILE_CONTEXT.securityContext.project_slug === 'default' ? "1=1" : "status='"+COMPILE_CONTEXT.securityContext.project_slug + "'"} 
   `,
   preAggregations: {
     main:{
