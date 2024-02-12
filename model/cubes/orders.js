@@ -4,8 +4,8 @@ cube('orders2', {
   //  WHERE ${COMPILE_CONTEXT.securityContext.project_slug === 'default' ? "1=1" : "status='"+COMPILE_CONTEXT.securityContext.project_slug + "'"} 
   // `,
   preAggregations: {
-    main:{
-      dimensions: [CUBE.project_slug, CUBE.status],
+    main2:{
+      dimensions: [CUBE.status],
       measures: [CUBE.count],
       timeDimension: CUBE.created_at,
       granularity: `day`,
