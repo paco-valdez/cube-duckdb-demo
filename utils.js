@@ -13,7 +13,8 @@ async function fetchColumnList(tenantId) {
   // simulate fetch columnList from DB
   await stall();
   console.log(`Tenant ID ${tenantId}`);
-  return {'status1': {}, 'status2': {}, 'status3': {}};
+  columnList[tenantId] = {'status1': {}, 'status2': {}, 'status3': {}};
+  return columnList[tenantId];
 }
 
 module.exports =  { fetchColumnList, stall };
