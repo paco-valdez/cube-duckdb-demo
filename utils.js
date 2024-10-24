@@ -3,7 +3,7 @@ async function stall(stallTime = 3000) {
 }
 
 async function fetchColumnList(tenantId) {
-  stall();
+  await stall();
   console.log(`Tenant ID ${tenantId}`);
   return {'status1': {}, 'status2': {}, 'status3': {}};
 }
