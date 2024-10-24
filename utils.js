@@ -7,6 +7,7 @@ const columnList = {};
 async function fetchColumnList(tenantId) {
   // check if columnList is already present for tenantId in columnList
   if (columnList[tenantId]) {
+    console.log(`Tenant ID ${tenantId} memoized`);
     return columnList[tenantId];
   }
   // simulate fetch columnList from DB
