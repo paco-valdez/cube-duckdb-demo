@@ -2,19 +2,14 @@ import {
     fetchColumnList
   } from "../utils.js";
 
-const columnList = {};
+asyncModule(async () => {
 
 let {
   securityContext: { tenant_id },
 } = COMPILE_CONTEXT;
   // Fetch Dimensions
-
-asyncModule(async () => {
-  if (!columnList[tenant_id]) {
-    columnList[tenant_id] = await fetchColumnList(tenant_id);
-  }
   
-  let allowedDimensions = columnList[tenant_id];
+  let allowedDimensions = await ( await fetchColumnList(tenant_id));
 
   cube('orders2', {
     sql: `SELECT *
