@@ -1,0 +1,8 @@
+spaces:
+  - name: analytics-space          # Required: unique identifier
+    title: "Analytics Space"       # Optional: display name
+    description: "Space for analytics agents"
+    rules:
+      - # Rule definitions...
+    certified_queries:
+      - # Certified query definitions...
